@@ -15,5 +15,6 @@ public class UserDto {
     private String email;
 
     private UserRole role;
+    private int reputation;
 
 }

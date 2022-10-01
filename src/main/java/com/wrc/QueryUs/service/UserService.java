@@ -15,8 +15,9 @@ public class UserService {
     private UserRepository userRepository;
 
     public Optional<UserDto> createUser(User user){
-          userRepository.save(user);
-          return Optional.of(entityToDto(user));
+        user.setReputation(0);
+        userRepository.save(user);
+        return Optional.of(entityToDto(user));
 
     }
     public User findUserById(int id){
@@ -39,6 +40,7 @@ public class UserService {
         u.setId(user.getId());
         u.setEmail(user.getEmail());
         u.setRole(user.getRole());
+        u.setReputation(user.getReputation());
         return u;
     }
 }

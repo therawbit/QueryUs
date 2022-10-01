@@ -8,16 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/register")
     public UserDto registerUser(@RequestBody User user){
         log.info(user.toString());
         return userService.createUser(user).orElseThrow(RuntimeException::new);
 
+    }
+    @GetMapping("/home")
+    public String test(){
+        return "hi hello ola namaster!!!";
     }
 
     
