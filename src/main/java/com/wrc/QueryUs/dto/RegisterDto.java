@@ -6,15 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-
-    private int id;
-
-    private String email;
+@AllArgsConstructor
+public class RegisterDto {
     private String username;
-    private UserRole role;
-    private int reputation;
+    private String email;
+    private String password;
+    private String confirmPassword;
+    private UserRole userRole;
 
 }
