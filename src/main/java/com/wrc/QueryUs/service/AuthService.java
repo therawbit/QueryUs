@@ -21,16 +21,22 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserDto registerUser(RegisterDto registerDto){
-        User user = new User();
-        user.setUsername(registerDto.getUsername());
-        user.setEmail(registerDto.getEmail());
-        user.setReputation(0);
-        user.setRole(registerDto.getUserRole());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        return entityToDto(userRepository.save(user));
+    public UserDto registerUser(RegisterDto registerDto) {
+        User user = userRepository.getByEmail(registerDto.getEmail()).orElse(null);
+        if (user == null) {
+            user = new User();
+            user.setUsername(registerDto.getUsername());
+            user.setEmail(registerDto.getEmail());
+            user.setReputation(0);
+            user.setRole(registerDto.getUserRole());
+            user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+            return entityToDto(userRepository.save(user));
+        } else {
+            throw new RuntimeException("user already Exist");
+        }
     }
-    private UserDto entityToDto(User user){
+
+    private UserDto entityToDto(User user) {
         UserDto u = new UserDto();
         u.setId(user.getId());
         u.setEmail(user.getEmail());

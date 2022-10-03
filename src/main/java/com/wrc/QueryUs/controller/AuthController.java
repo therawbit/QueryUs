@@ -19,14 +19,19 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<Object> registerUser(@RequestBody RegisterDto registerDto){
         log.info(registerDto.toString());
-        if(!registerDto.getPassword().equals(registerDto.getConfirmPassword()))
+        if(!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
             return new ResponseEntity<>("Password do not match",HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(authService.registerUser(registerDto),HttpStatus.OK);
+        }
+        try {
+            return new ResponseEntity<>(authService.registerUser(registerDto), HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
     }
-    @GetMapping("/home")
-    public String test(){
-        return "hi hello ola namaster!!!";
+    @PostMapping("/login")
+    public ResponseEntity<String> login(){
+        return new ResponseEntity<>("success",HttpStatus.OK);
     }
 
     
