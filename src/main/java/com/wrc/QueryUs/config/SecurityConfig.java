@@ -25,8 +25,10 @@ public class SecurityConfig {
                 csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/auth/**").permitAll()
-                .mvcMatchers("/login").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .formLogin();
         return http.build();
     }
     @Bean
