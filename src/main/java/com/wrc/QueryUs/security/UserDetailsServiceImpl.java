@@ -1,7 +1,6 @@
-package com.wrc.QueryUs.service;
+package com.wrc.QueryUs.security;
 
-import com.wrc.QueryUs.entity.User;
-import com.wrc.QueryUs.entity.UserDetailsImpl;
+import com.wrc.QueryUs.security.UserDetailsImpl;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

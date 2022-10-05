@@ -1,5 +1,6 @@
-package com.wrc.QueryUs.entity;
+package com.wrc.QueryUs.security;
 
+import com.wrc.QueryUs.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
