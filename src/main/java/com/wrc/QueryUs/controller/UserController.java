@@ -2,14 +2,13 @@ package com.wrc.QueryUs.controller;
 
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.RegisterDto;
+import com.wrc.QueryUs.dto.UserDto;
 import com.wrc.QueryUs.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -32,6 +31,17 @@ public class UserController {
         return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
 
     }
+    @GetMapping
+    public String home(){
+        return "Welcome to Query Us.";
+    }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ApiResponse> getUser(@PathVariable int id){
+        UserDto u = userService.getUser(id);
+        if(u==null)
+            return new ResponseEntity<>(new ApiResponse("User not Found",false,null),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse("Found",true,u),HttpStatus.FOUND);
+    }
 
 }
