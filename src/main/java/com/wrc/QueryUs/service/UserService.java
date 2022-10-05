@@ -5,17 +5,12 @@ import com.wrc.QueryUs.dto.UserDto;
 import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class AuthService {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -32,7 +27,7 @@ public class AuthService {
             user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
             return entityToDto(userRepository.save(user));
         } else {
-            throw new RuntimeException("user already Exist");
+            throw new RuntimeException("User already exists.");
         }
     }
 
