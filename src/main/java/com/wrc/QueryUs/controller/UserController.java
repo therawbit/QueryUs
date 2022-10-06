@@ -19,16 +19,17 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody RegisterDto registerDto) {
+        UserDto u;
         log.info(registerDto.toString());
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
             return new ResponseEntity<>(new ApiResponse("Password do not match.", false), HttpStatus.BAD_REQUEST);
         }
         try {
-            userService.registerUser(registerDto);
+            u =  userService.registerUser(registerDto);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("User created successfully.", true,u), HttpStatus.OK);
 
     }
     @GetMapping

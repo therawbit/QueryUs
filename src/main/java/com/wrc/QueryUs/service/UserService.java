@@ -18,7 +18,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public void registerUser(RegisterDto registerDto) {
+    public UserDto registerUser(RegisterDto registerDto) {
         User user = userRepository.getByEmail(registerDto.getEmail()).orElse(null);
         if(user!=null){
             throw new RuntimeException("User already exists.");
@@ -29,7 +29,7 @@ public class UserService {
             user.setReputation(0);
             user.setRole(registerDto.getUserRole());
             user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-            userRepository.save(user);
+            return entityToDto(userRepository.save(user));
     }
 
     private UserDto entityToDto(User user) {
