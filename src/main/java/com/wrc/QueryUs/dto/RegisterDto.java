@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterDto {
-    private String username;
+    private String firstName;
+    private String lastName;
+    private String middleName;
     private String email;
     private String password;
     private String confirmPassword;

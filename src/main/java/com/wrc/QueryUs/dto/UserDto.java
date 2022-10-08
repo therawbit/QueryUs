@@ -13,7 +13,9 @@ public class UserDto {
     private int id;
 
     private String email;
-    private String username;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private UserRole role;
     private int reputation;
 

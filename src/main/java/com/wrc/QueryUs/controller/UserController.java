@@ -29,7 +29,7 @@ public class UserController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ApiResponse("User created successfully.", true,u), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
 
     }
     @GetMapping
@@ -41,8 +41,8 @@ public class UserController {
     public ResponseEntity<ApiResponse> getUser(@PathVariable int id){
         UserDto u = userService.getUser(id);
         if(u==null)
-            return new ResponseEntity<>(new ApiResponse("User not Found",false,null),HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(new ApiResponse("Found",true,u),HttpStatus.FOUND);
+            return new ResponseEntity<>(new ApiResponse("User not Found",false),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse("Found",true),HttpStatus.FOUND);
     }
 
 }
