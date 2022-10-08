@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -18,7 +21,11 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerUser(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegisterDto registerDto, Errors errors) {
+
+        if(errors.getAllErrors().size()>0){
+            return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(),false),HttpStatus.BAD_REQUEST);
+        }
         UserDto u;
         log.info(registerDto.toString());
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
