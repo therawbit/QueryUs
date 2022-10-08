@@ -45,11 +45,11 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<ApiResponse> getUser(@PathVariable int id){
+    public ResponseEntity<UserDto> getUser(@PathVariable int id){
         UserDto u = userService.getUser(id);
         if(u==null)
-            return new ResponseEntity<>(new ApiResponse("User not Found",false),HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(new ApiResponse("Found",true),HttpStatus.FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(u,HttpStatus.FOUND);
     }
 
 }
