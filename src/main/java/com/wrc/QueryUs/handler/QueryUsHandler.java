@@ -1,0 +1,17 @@
+package com.wrc.QueryUs.handler;
+
+import com.wrc.QueryUs.dto.ApiResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class QueryUsHandler {
+
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<ApiResponse> handler(Exception e) {
+        return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
+    }
+
+}

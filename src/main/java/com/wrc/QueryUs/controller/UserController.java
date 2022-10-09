@@ -23,33 +23,27 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegisterDto registerDto, Errors errors) {
 
-        if(errors.getAllErrors().size()>0){
-            return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(),false),HttpStatus.BAD_REQUEST);
+        if (errors.getAllErrors().size() > 0) {
+            return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(), false), HttpStatus.BAD_REQUEST);
         }
-        UserDto u;
         log.info(registerDto.toString());
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
             return new ResponseEntity<>(new ApiResponse("Password do not match.", false), HttpStatus.BAD_REQUEST);
         }
-        try {
-            u =  userService.registerUser(registerDto);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
-        }
+        userService.registerUser(registerDto);
         return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
 
     }
+
     @GetMapping
-    public String home(){
+    public String home() {
         return "Welcome to Query Us.";
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable int id){
+    public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         UserDto u = userService.getUser(id);
-        if(u==null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(u,HttpStatus.FOUND);
+        return new ResponseEntity<>(u, HttpStatus.FOUND);
     }
 
 }

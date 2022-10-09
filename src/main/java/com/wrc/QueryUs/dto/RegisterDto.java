@@ -4,6 +4,7 @@ import com.wrc.QueryUs.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,7 +21,7 @@ public class RegisterDto {
     private String middleName;
     @Email(message = "Provide valid email.")
     private String email;
-
+    @Length(min = 8,message = "Password should contains at least 8 characters.")
     private String password;
     private String confirmPassword;
     @NotNull(message = "NO user role defined.")

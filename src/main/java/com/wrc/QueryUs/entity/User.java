@@ -20,6 +20,7 @@ public class User {
     private String middleName;
     @Column(name = "last_name")
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
     private UserRole role;
