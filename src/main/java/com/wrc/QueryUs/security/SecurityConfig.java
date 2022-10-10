@@ -28,7 +28,9 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .formLogin();
+                .formLogin()
+                .and()
+                .httpBasic();
         return http.build();
     }
 
