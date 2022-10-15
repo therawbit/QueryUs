@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,6 +54,9 @@ public class QuestionService {
             throw new RuntimeException("Unauthorized");
         }
 
+    }
+    public List<QuestionDto> getAllQuestions(){
+        return questionRepository.findAll().stream().map(d->entityToDto(d)).collect(Collectors.toList());
     }
     private QuestionDto entityToDto(Question q){
         QuestionDto dto = new QuestionDto();

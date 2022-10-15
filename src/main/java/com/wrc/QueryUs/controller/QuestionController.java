@@ -39,12 +39,13 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<QuestionDto> getQuestion(@PathVariable int id) {
-        return new ResponseEntity<>(questionService.getQuestion(id),HttpStatus.FOUND);
+        return new ResponseEntity<>(questionService.getQuestion(id),HttpStatus.OK);
     }
 
-    @GetMapping("/questions")
+    @GetMapping("/all")
     public ResponseEntity<List<QuestionDto>> getAllQuestions() {
-        return null;
+        List questions = questionService.getAllQuestions();
+        return new ResponseEntity<>(questions,HttpStatus.OK);
     }
 
 }
