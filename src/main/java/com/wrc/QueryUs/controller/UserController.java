@@ -16,6 +16,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -40,7 +41,7 @@ public class UserController {
         return "Welcome to Query Us.";
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         UserDto u = userService.getUser(id);
         return new ResponseEntity<>(u, HttpStatus.FOUND);
