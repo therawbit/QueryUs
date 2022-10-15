@@ -1,11 +1,14 @@
 package com.wrc.QueryUs.service;
 
+import com.wrc.QueryUs.dto.QuestionDto;
 import com.wrc.QueryUs.entity.Question;
+import com.wrc.QueryUs.handler.QueryUsHandler;
 import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +35,20 @@ public class QuestionService {
         questionRepository.save(question);
 
 
+    }
+    public QuestionDto getQuestion(int id){
+        Question q = questionRepository.findById(id).orElseThrow(()->new RuntimeException("Question Not Found."));
+        return entityToDto(q);
+
+
+    }
+    private QuestionDto entityToDto(Question q){
+        QuestionDto dto = new QuestionDto();
+        dto.setQuestionText(q.getQuestionText());
+        dto.setId(q.getId());
+        dto.setDate(q.getDate());
+        dto.setUpVotes(q.getUpVotes());
+        dto.setUserId(q.getUser().getId());
+        return dto;
     }
 }
