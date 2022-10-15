@@ -1,6 +1,7 @@
 package com.wrc.QueryUs.service;
 
 import com.wrc.QueryUs.dto.QuestionDto;
+import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.entity.Question;
 import com.wrc.QueryUs.handler.QueryUsHandler;
 import com.wrc.QueryUs.repository.QuestionRepository;
@@ -42,9 +43,19 @@ public class QuestionService {
 
 
     }
+    public void updateQuestion(UpdateQuestionDto dto){
+        Question q = questionRepository.findById(dto.getId()).orElseThrow(()->new RuntimeException("Question Not Found"));
+        if(q.getUser().getId()==dto.getUserId()){
+            q.setQuestionText(dto.getQuestion());
+            questionRepository.save(q);
+        }else{
+            throw new RuntimeException("Unauthorized");
+        }
+
+    }
     private QuestionDto entityToDto(Question q){
         QuestionDto dto = new QuestionDto();
-        dto.setQuestionText(q.getQuestionText());
+        dto.setQuestion(q.getQuestionText());
         dto.setId(q.getId());
         dto.setDate(q.getDate());
         dto.setUpVotes(q.getUpVotes());
