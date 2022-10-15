@@ -9,5 +9,6 @@ public class QuestionDto {
     private int id;
     private int upVotes;
     private Date date;
-    private String question;
+    private String questionText;
+    private int userId;
 }
