@@ -3,13 +3,11 @@ package com.wrc.QueryUs.service;
 import com.wrc.QueryUs.dto.QuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.entity.Question;
-import com.wrc.QueryUs.handler.QueryUsHandler;
 import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +23,8 @@ import java.util.stream.Collectors;
 public class QuestionService {
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
+
+    private final AnswerService answerService;
 
 
     public void addQuestion(String questionText) {
@@ -58,12 +58,13 @@ public class QuestionService {
     public List<QuestionDto> getAllQuestions(){
         return questionRepository.findAll().stream().map(d->entityToDto(d)).collect(Collectors.toList());
     }
-    private QuestionDto entityToDto(Question q){
+    public QuestionDto entityToDto(Question q){
         QuestionDto dto = new QuestionDto();
         dto.setQuestion(q.getQuestionText());
         dto.setId(q.getId());
         dto.setDate(q.getDate());
         dto.setUpVotes(q.getUpVotes());
+        dto.setAnswers(q.getAnswers().stream().map(a->answerService.entityToDto(a)).collect(Collectors.toList()));
         dto.setUserId(q.getUser().getId());
         return dto;
     }

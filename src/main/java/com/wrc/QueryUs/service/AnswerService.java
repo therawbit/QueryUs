@@ -1,13 +1,16 @@
 package com.wrc.QueryUs.service;
 
+import com.wrc.QueryUs.dto.AnswerDto;
 import com.wrc.QueryUs.entity.Answer;
-import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.repository.AnswerRepository;
 import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.Instant;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +25,17 @@ public class AnswerService {
         ans.setQuestion(questionRepository.findById(questionId).orElseThrow());
         ans.setUser(userRepository.getByEmail(email).orElseThrow());
         ans.setUpVotes(0);
+        ans.setDate(Date.from(Instant.now()));
         answerRepository.save(ans);
+    }
+    public AnswerDto entityToDto(Answer answer){
+        AnswerDto dto = new AnswerDto();
+        dto.setId(answer.getId());
+        dto.setAnswer(answer.getAnswer());
+        dto.setQuestionId(answer.getQuestion().getId());
+        dto.setUserId(answer.getUser().getId());
+        dto.setDate(answer.getDate());
+        dto.setUpVotes(answer.getUpVotes());
+        return dto;
     }
 }
