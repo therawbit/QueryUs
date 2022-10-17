@@ -28,6 +28,17 @@ public class AnswerService {
         ans.setDate(Date.from(Instant.now()));
         answerRepository.save(ans);
     }
+    public void updateAnswer(int id,String answer){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Answer ans = answerRepository.findById(id).orElseThrow(()->new RuntimeException("Answer does not exist."));
+        if(ans.getUser().getEmail().equals(email)){
+            ans.setAnswer(answer);
+            answerRepository.save(ans);
+        }else{
+            throw new RuntimeException("Unauthorized");
+        }
+
+    }
     public AnswerDto entityToDto(Answer answer){
         AnswerDto dto = new AnswerDto();
         dto.setId(answer.getId());
