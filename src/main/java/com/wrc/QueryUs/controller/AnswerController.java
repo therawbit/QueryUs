@@ -23,4 +23,12 @@ public class AnswerController {
 
         return new ResponseEntity<>(new ApiResponse("Answer Posted Successfully.",true), HttpStatus.OK);
     }
+    @PostMapping("/update/{id}")
+    public ResponseEntity<ApiResponse> updateAnswer(@PathVariable int id,@RequestParam String answer){
+        if(answer.trim().isEmpty()){
+            throw new RuntimeException("Answer cannot be empty.");
+        }
+        answerService.updateAnswer(id,answer);
+        return new ResponseEntity<>(new ApiResponse("Answer Updated Successfully.",true), HttpStatus.OK);
+    }
 }
