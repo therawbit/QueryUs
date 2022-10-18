@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,5 +28,6 @@ public class Answer {
     @JoinColumn(name = "user_id")
     private User user;
     private int upVotes;
+    @CreationTimestamp
     private Date date;
 }

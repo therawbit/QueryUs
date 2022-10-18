@@ -33,7 +33,6 @@ public class QuestionService {
 
         Question question = new Question();
         question.setQuestionText(questionText);
-        question.setDate(Date.from(Instant.now()));
         question.setUser(userRepository.getByEmail(email).orElseThrow());
         question.setUpVotes(0);
         questionRepository.save(question);

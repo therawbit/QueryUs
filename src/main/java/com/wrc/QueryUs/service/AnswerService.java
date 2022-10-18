@@ -25,7 +25,6 @@ public class AnswerService {
         ans.setQuestion(questionRepository.findById(questionId).orElseThrow());
         ans.setUser(userRepository.getByEmail(email).orElseThrow());
         ans.setUpVotes(0);
-        ans.setDate(Date.from(Instant.now()));
         answerRepository.save(ans);
     }
     public void updateAnswer(int id,String answer){
