@@ -42,9 +42,9 @@ public class QuestionController {
         return new ResponseEntity<>(questionService.getQuestion(id),HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<QuestionDto>> getAllQuestions() {
-        List questions = questionService.getAllQuestions();
+    @GetMapping("/all/{pageNo}")
+    public ResponseEntity<List<QuestionDto>> getAllQuestions(@PathVariable int pageNo) {
+        List questions = questionService.getAllQuestions(pageNo);
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
 

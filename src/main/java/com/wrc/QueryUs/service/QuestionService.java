@@ -8,6 +8,7 @@ import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +56,8 @@ public class QuestionService {
         }
 
     }
-    public List<QuestionDto> getAllQuestions(){
-        return questionRepository.findAll().stream().map(d->entityToDto(d)).collect(Collectors.toList());
+    public List<QuestionDto> getAllQuestions(int pageNo){
+        return questionRepository.findAll(PageRequest.of(pageNo,10)).stream().map(d->entityToDto(d)).collect(Collectors.toList());
     }
     public QuestionDto entityToDto(Question q){
         QuestionDto dto = new QuestionDto();
