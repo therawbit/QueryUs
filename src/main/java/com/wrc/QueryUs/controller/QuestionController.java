@@ -33,6 +33,9 @@ public class QuestionController {
 
     @PostMapping("/update")
     public ResponseEntity<ApiResponse> updateQuestion(@Valid @RequestBody UpdateQuestionDto dto, Errors errors) {
+        if (errors.getAllErrors().size() > 0) {
+            return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(), false), HttpStatus.BAD_REQUEST);
+        }
         questionService.updateQuestion(dto);
         return new ResponseEntity<>(new ApiResponse("Updated Successfully",true),HttpStatus.ACCEPTED);
     }

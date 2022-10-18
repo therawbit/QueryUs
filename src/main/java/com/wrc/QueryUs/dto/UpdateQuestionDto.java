@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UpdateQuestionDto {
     private int id;
-    @NotEmpty(message = "Question Text Cannot be Empty")
+    @NotBlank(message = "Question Text Cannot be Empty")
     private String question;
     private int userId;
 }
