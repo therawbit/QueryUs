@@ -12,9 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +53,7 @@ public class QuestionService {
 
     }
     public List<QuestionDto> getAllQuestions(int pageNo){
-        return questionRepository.findAll(PageRequest.of(pageNo,10)).stream().map(d->entityToDto(d)).collect(Collectors.toList());
+        return questionRepository.findAll(PageRequest.of(pageNo,10)).stream().map(this::entityToDto).collect(Collectors.toList());
     }
     public QuestionDto entityToDto(Question q){
         QuestionDto dto = new QuestionDto();
@@ -64,8 +61,12 @@ public class QuestionService {
         dto.setId(q.getId());
         dto.setDate(q.getDate());
         dto.setUpVotes(q.getUpVotes());
-        dto.setAnswers(q.getAnswers().stream().map(a->answerService.entityToDto(a)).collect(Collectors.toList()));
+        dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUserId(q.getUser().getId());
         return dto;
+    }
+
+    public List<QuestionDto> searchQuestion(String question,int page) {
+        return questionRepository.findByQuestionTextContainingIgnoreCase(question,PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList());
     }
 }

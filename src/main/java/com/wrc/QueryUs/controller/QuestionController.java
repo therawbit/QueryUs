@@ -47,7 +47,13 @@ public class QuestionController {
 
     @GetMapping("/all/{pageNo}")
     public ResponseEntity<List<QuestionDto>> getAllQuestions(@PathVariable int pageNo) {
-        List questions = questionService.getAllQuestions(pageNo);
+        List<QuestionDto> questions = questionService.getAllQuestions(pageNo);
+        return new ResponseEntity<>(questions,HttpStatus.OK);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<QuestionDto>> searchQuestion(@RequestParam String question,@RequestParam(defaultValue = "0") int page){
+        log.info(String.valueOf(page));
+        List<QuestionDto> questions = questionService.searchQuestion(question,page);
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
 
