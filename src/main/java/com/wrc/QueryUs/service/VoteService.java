@@ -1,5 +1,6 @@
 package com.wrc.QueryUs.service;
 
+import com.wrc.QueryUs.entity.Answer;
 import com.wrc.QueryUs.entity.Question;
 import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.repository.AnswerRepository;
@@ -38,5 +39,26 @@ public class VoteService {
         return "Up Voted";
 
 
+    }
+
+    public String voteAnswer(int id) {
+        User votingUser = userRepository.
+                getByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
+                .orElseThrow();
+        Answer votedAnswer = answerRepository.findById(id).orElseThrow();
+        int answerUpVotes = votedAnswer.getUpVotes();
+        int answerPostingUsersReputation = votedAnswer.getUser().getReputation();
+        if( votedAnswer.getUpVotedUsers().contains(votingUser)){
+            votedAnswer.getUpVotedUsers().remove(votingUser);
+            votedAnswer.setUpVotes(answerUpVotes-1);
+            votedAnswer.getUser().setReputation(answerPostingUsersReputation-1);
+            answerRepository.save(votedAnswer);
+            return "Down Voted";
+        }
+        votedAnswer.getUpVotedUsers().add(votingUser);
+        votedAnswer.setUpVotes(answerUpVotes+1);
+        votedAnswer.getUser().setReputation(answerPostingUsersReputation+1);
+        answerRepository.save(votedAnswer);
+        return "Up Voted";
     }
 }

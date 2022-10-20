@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -30,4 +31,6 @@ public class Answer {
     private int upVotes;
     @CreationTimestamp
     private Date date;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<User> upVotedUsers;
 }

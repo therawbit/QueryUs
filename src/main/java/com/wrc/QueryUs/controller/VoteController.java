@@ -22,5 +22,10 @@ public class VoteController {
         String response = voteService.voteQuestion(id);
         return new ResponseEntity<>(new ApiResponse(response,true), HttpStatus.OK);
     }
+    @PostMapping("/answer/{id}")
+    public ResponseEntity<ApiResponse> voteAnswer(@PathVariable int id){
+        String response = voteService.voteAnswer(id);
+        return new ResponseEntity<>(new ApiResponse(response,true), HttpStatus.OK);
+    }
 
 }
