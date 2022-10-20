@@ -3,11 +3,11 @@ package com.wrc.QueryUs.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,6 +30,8 @@ public class Question {
     @OneToMany(mappedBy = "question",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Answer> answers;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<User> upVotedUsers;
 
 
 }
