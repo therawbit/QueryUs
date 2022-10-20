@@ -32,6 +32,5 @@ public class Answer {
     @CreationTimestamp
     private Date date;
     @ManyToMany(fetch = FetchType.LAZY)
-    Set<User> upVotedUsers;
-
+    private Set<User> upVotedUsers;
 }
