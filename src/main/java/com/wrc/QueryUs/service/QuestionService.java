@@ -53,15 +53,19 @@ public class QuestionService {
 
     }
     public List<QuestionDto> getAllQuestions(int pageNo){
-        return questionRepository.findAll(PageRequest.of(pageNo,10)).stream().map(this::entityToDto).collect(Collectors.toList());
+        return questionRepository.findAll(PageRequest.of(pageNo,10)).stream().map(this::entityToDtoLazy).collect(Collectors.toList());
     }
     public QuestionDto entityToDto(Question q){
+        QuestionDto dto = entityToDtoLazy(q);
+        dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
+        return dto;
+    }
+    public QuestionDto entityToDtoLazy(Question q){
         QuestionDto dto = new QuestionDto();
         dto.setQuestion(q.getQuestionText());
         dto.setId(q.getId());
         dto.setDate(q.getDate());
         dto.setUpVotes(q.getUpVotes());
-        dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUserId(q.getUser().getId());
         return dto;
     }
