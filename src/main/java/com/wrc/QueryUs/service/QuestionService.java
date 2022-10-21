@@ -59,6 +59,7 @@ public class QuestionService {
     public QuestionDto entityToDto(Question q) {
         QuestionDto dto = entityToDtoLazy(q);
         dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
+        dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         return dto;
     }
 
@@ -67,7 +68,7 @@ public class QuestionService {
         dto.setQuestion(q.getQuestionText());
         dto.setId(q.getId());
         dto.setDate(q.getDate());
-        dto.setUpVotes(q.getUpVotes());
+        dto.setVoteCount(q.getUpVotes());
         dto.setUserId(q.getUser().getId());
         return dto;
     }
