@@ -10,6 +10,7 @@ public class AnswerDto {
     private String answer;
     private int questionId;
     private int userId;
-    private int upVotes;
+    private int voteCount;
     private Date date;
+    private boolean isUpVoted;
 }

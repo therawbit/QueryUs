@@ -46,7 +46,8 @@ public class AnswerService {
         dto.setQuestionId(answer.getQuestion().getId());
         dto.setUserId(answer.getUser().getId());
         dto.setDate(answer.getDate());
-        dto.setUpVotes(answer.getUpVotes());
+        dto.setVoteCount(answer.getUpVotes());
+        dto.setUpVoted(answer.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         return dto;
     }
 }
