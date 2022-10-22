@@ -3,6 +3,7 @@ package com.wrc.QueryUs.service;
 import com.wrc.QueryUs.dto.QuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.entity.Question;
+import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.security.QueryUtils;
 import lombok.AllArgsConstructor;
@@ -75,5 +76,14 @@ public class QuestionService {
 
     public List<QuestionDto> searchQuestion(String question, int page) {
         return questionRepository.findByQuestionTextContainingIgnoreCase(question, PageRequest.of(page, 10)).stream().map(this::entityToDto).collect(Collectors.toList());
+    }
+    public void deleteQuestion(int id){
+        Question question = questionRepository.findById(id).orElseThrow(()->new RuntimeException("Question Not Found"));
+        User requestingUser = queryUtils.getCurrentLoggedInUser();
+        if(question.getUser().getId()==requestingUser.getId()){
+            questionRepository.delete(question);
+        }else{
+            throw new RuntimeException("Unauthorized");
+        }
     }
 }

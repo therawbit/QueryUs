@@ -27,7 +27,7 @@ public class Question {
     private User user;
     @CreationTimestamp
     private Date date;
-    @OneToMany(mappedBy = "question",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Answer> answers;
     @ManyToMany(fetch = FetchType.LAZY)

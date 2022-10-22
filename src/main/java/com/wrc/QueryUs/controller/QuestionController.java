@@ -31,7 +31,7 @@ public class QuestionController {
         return new ResponseEntity<>(new ApiResponse("Question Posted Successfully.", true), HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ApiResponse> updateQuestion(@Valid @RequestBody UpdateQuestionDto dto, Errors errors) {
         if (errors.getAllErrors().size() > 0) {
             return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(), false), HttpStatus.BAD_REQUEST);
@@ -55,6 +55,11 @@ public class QuestionController {
         log.info(String.valueOf(page));
         List<QuestionDto> questions = questionService.searchQuestion(question,page);
         return new ResponseEntity<>(questions,HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteQuestion(@PathVariable int id){
+        questionService.deleteQuestion(id);
+        return new ResponseEntity<>(new ApiResponse("Question Deleted Successfully.",true),HttpStatus.OK);
     }
 
 }
