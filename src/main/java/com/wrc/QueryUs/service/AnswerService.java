@@ -2,6 +2,7 @@ package com.wrc.QueryUs.service;
 
 import com.wrc.QueryUs.dto.AnswerDto;
 import com.wrc.QueryUs.entity.Answer;
+import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.repository.AnswerRepository;
 import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.security.QueryUtils;
@@ -49,5 +50,15 @@ public class AnswerService {
         dto.setVoteCount(answer.getUpVotes());
         dto.setUpVoted(answer.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         return dto;
+    }
+
+    public void deleteAnswer(int id) {
+        Answer answer = answerRepository.findById(id).orElseThrow();
+        User loggedInUser = queryUtils.getCurrentLoggedInUser();
+        if(answer.getUser().getId()==loggedInUser.getId()){
+            answerRepository.delete(answer);
+        }else{
+            throw new RuntimeException("Unauthorized");
+        }
     }
 }

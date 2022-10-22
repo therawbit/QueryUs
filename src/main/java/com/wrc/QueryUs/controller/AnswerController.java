@@ -31,4 +31,9 @@ public class AnswerController {
         answerService.updateAnswer(id,answer);
         return new ResponseEntity<>(new ApiResponse("Answer Updated Successfully.",true), HttpStatus.OK);
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteAnswer(@PathVariable int id){
+        answerService.deleteAnswer(id);
+        return new ResponseEntity<>(new ApiResponse("Answer Deleted Successfully.",true),HttpStatus.OK);
+    }
 }
