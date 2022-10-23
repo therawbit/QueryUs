@@ -12,17 +12,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebMvc
 public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
+    public static String[] PUBLIC_URLS={
+            "/user/register","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**"
+    };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().mvcMatchers("/user/register").permitAll().anyRequest().authenticated().and().authenticationProvider(authenticationProvider()).formLogin().and().httpBasic();
+        http.csrf().disable()
+                .authorizeRequests()
+                .mvcMatchers(PUBLIC_URLS).permitAll()
+                .anyRequest().authenticated().and().authenticationProvider(authenticationProvider())
+                .formLogin().and().httpBasic();
         return http.build();
     }
 
