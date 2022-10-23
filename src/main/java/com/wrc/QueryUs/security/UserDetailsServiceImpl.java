@@ -1,6 +1,5 @@
 package com.wrc.QueryUs.security;
 
-import com.wrc.QueryUs.security.UserDetailsImpl;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
