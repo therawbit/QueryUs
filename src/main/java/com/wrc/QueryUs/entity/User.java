@@ -25,6 +25,7 @@ public class User {
     private String password;
     private UserRole role;
     private int reputation;
+    private boolean enabled=false;
 
 
 }

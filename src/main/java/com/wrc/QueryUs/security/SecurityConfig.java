@@ -3,6 +3,7 @@ package com.wrc.QueryUs.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,16 +23,18 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
     public static String[] PUBLIC_URLS={
-            "/user/register","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**"
+            "/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**"
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .mvcMatchers(HttpMethod.POST,"/user/register").permitAll()
                 .mvcMatchers(PUBLIC_URLS).permitAll()
-                .anyRequest().authenticated().and().authenticationProvider(authenticationProvider())
-                .formLogin().and().httpBasic();
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
         return http.build();
     }
 
