@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .mvcMatchers(PUBLIC_URLS).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .formLogin().and() .httpBasic();
         return http.build();
     }
 
