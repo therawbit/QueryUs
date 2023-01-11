@@ -12,14 +12,26 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class TokenService {
     private final TokenRepository tokenRepository;
+    private final UserService userService;
 
-    public void saveToken(String t, User user){
-        VerificationToken token = new VerificationToken();
-        token.setToken(t);
-        token.setExpiresAt(LocalDateTime.now().plusMinutes(15));
-        token.setUser(user);
-        tokenRepository.save(token);
 
+    public String confirmToken(String token){
+        VerificationToken confirmationToken = tokenRepository.findByToken(token)
+                .orElseThrow(()->new IllegalArgumentException("Invalid Token"));
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("email already confirmed");
+        }
+
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+
+        confirmationToken.setConfirmedAt(LocalDateTime.now());
+        tokenRepository.save(confirmationToken);
+        userService.enableUser(confirmationToken.getUser().getEmail());
+        return "confirmed";
     }
 
 }

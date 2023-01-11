@@ -3,6 +3,7 @@ package com.wrc.QueryUs.controller;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.RegisterDto;
 import com.wrc.QueryUs.dto.UserDto;
+import com.wrc.QueryUs.service.TokenService;
 import com.wrc.QueryUs.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final TokenService tokenService;
 
 
     @PostMapping("/register")
@@ -40,6 +42,16 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         UserDto u = userService.getUser(id);
         return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+    @GetMapping("/verify")
+    public ResponseEntity<ApiResponse> verifyUser(@RequestParam("token") String token){
+        if(token.isEmpty()){
+            return new ResponseEntity<>(new ApiResponse("Invalid Token",false),HttpStatus.BAD_REQUEST);
+
+        }
+        tokenService.confirmToken(token);
+        return new ResponseEntity<>(new ApiResponse("Email Verified",true),HttpStatus.OK);
+
     }
 
 }

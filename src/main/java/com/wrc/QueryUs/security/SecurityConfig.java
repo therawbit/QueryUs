@@ -23,7 +23,7 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
     public static String[] PUBLIC_URLS={
-            "/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**"
+            "/user/verify","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**"
     };
 
     @Bean
