@@ -33,6 +33,10 @@ public class UserController {
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
             return new ResponseEntity<>(new ApiResponse("Password do not match.", false), HttpStatus.BAD_REQUEST);
         }
+        if(!isValidEmail(registerDto.getEmail(),registerDto.getUserRole().ordinal()==0)){
+            return new ResponseEntity<>(new ApiResponse("Not a Valid IOE Email for "+registerDto.getUserRole().toString(),false),HttpStatus.BAD_REQUEST);
+        }
+
         userService.registerUser(registerDto);
         return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
 
@@ -52,6 +56,15 @@ public class UserController {
         tokenService.confirmToken(token);
         return new ResponseEntity<>(new ApiResponse("Email Verified",true),HttpStatus.OK);
 
+    }
+    private boolean isValidEmail(String email,boolean isStudent){
+        String stRegex="(...\\d\\d\\d){2}@...\\.edu\\.np";
+        String tcRegex=".*@...\\.edu\\.np";
+        if(isStudent){
+            return email.matches(stRegex);
+        }else{
+            return email.matches(tcRegex);
+        }
     }
 
 }
