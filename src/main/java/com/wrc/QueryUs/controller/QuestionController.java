@@ -1,5 +1,6 @@
 package com.wrc.QueryUs.controller;
 
+import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.QuestionDto;
@@ -24,11 +25,12 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> postQuestion(@RequestParam(name = "question_text") String questionText) {
-        if (questionText.trim().isEmpty()) {
-            return new ResponseEntity<>(new ApiResponse("Question cannot be empty", false), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> postQuestion(@Valid @RequestBody AddQuestionDto dto,Errors errors) {
+        if (errors.getAllErrors().size() > 0) {
+            return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(), false), HttpStatus.BAD_REQUEST);
         }
-        questionService.addQuestion(questionText);
+        log.info(dto.getTags().toString());
+        questionService.addQuestion(dto);
 
         return new ResponseEntity<>(new ApiResponse("Question Posted Successfully.", true), HttpStatus.CREATED);
     }

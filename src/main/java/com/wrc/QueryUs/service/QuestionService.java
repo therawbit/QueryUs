@@ -1,5 +1,6 @@
 package com.wrc.QueryUs.service;
 
+import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.QuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.entity.Question;
@@ -28,9 +29,10 @@ public class QuestionService {
     private final QueryUtils queryUtils;
 
 
-    public void addQuestion(String questionText) {
+    public void addQuestion(AddQuestionDto dto) {
         Question question = new Question();
-        question.setQuestionText(questionText);
+        question.setQuestionText(dto.getQuestionText());
+        question.setQuestionTitle(dto.getQuestionTitle());
         question.setUser(queryUtils.getCurrentLoggedInUser());
         question.setUpVotes(0);
         questionRepository.save(question);
@@ -71,6 +73,7 @@ public class QuestionService {
         dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         dto.setViews(q.getViews());
+        dto.setQuestionTitle(q.getQuestionTitle());
         return dto;
     }
 
@@ -78,7 +81,7 @@ public class QuestionService {
         QuestionDto dto = new QuestionDto();
         dto.setQuestionText(q.getQuestionText());
         dto.setId(q.getId());
-        dto.setDate(q.getDate());
+        dto.setTimestamp(q.getTimestamp());
         dto.setVoteCount(q.getUpVotes());
         dto.setUserId(q.getUser().getId());
         return dto;
