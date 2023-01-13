@@ -40,11 +40,7 @@ public class QuestionService {
         question.setQuestionTags(dto.getTags().stream().map(
                 t->{
                     Optional<QuestionTag> op = questionTagRepository.findByTag(t);
-                    if(op.isPresent()){
-                        return op.get();
-                    }else{
-                        return new QuestionTag(t);
-                    }
+                    return op.orElseGet(() -> new QuestionTag(t));
                 }
         ).collect(Collectors.toSet()));
         questionRepository.save(question);
