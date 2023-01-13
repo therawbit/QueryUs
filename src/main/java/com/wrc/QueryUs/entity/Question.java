@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +36,8 @@ public class Question {
     private Set<User> upVotedUsers;
 
     private int views=0;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<QuestionTag> questionTags;
 
 
 }

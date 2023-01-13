@@ -4,20 +4,21 @@ import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.QuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.entity.Question;
+import com.wrc.QueryUs.entity.QuestionTag;
 import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.repository.QuestionRepository;
+import com.wrc.QueryUs.repository.QuestionTagRepository;
 import com.wrc.QueryUs.security.QueryUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Slf4j
 @Service
@@ -27,6 +28,7 @@ public class QuestionService {
 
     private final AnswerService answerService;
     private final QueryUtils queryUtils;
+    private final QuestionTagRepository questionTagRepository;
 
 
     public void addQuestion(AddQuestionDto dto) {
@@ -35,6 +37,16 @@ public class QuestionService {
         question.setQuestionTitle(dto.getQuestionTitle());
         question.setUser(queryUtils.getCurrentLoggedInUser());
         question.setUpVotes(0);
+        question.setQuestionTags(dto.getTags().stream().map(
+                t->{
+                    Optional<QuestionTag> op = questionTagRepository.findByTag(t);
+                    if(op.isPresent()){
+                        return op.get();
+                    }else{
+                        return new QuestionTag(t);
+                    }
+                }
+        ).collect(Collectors.toSet()));
         questionRepository.save(question);
 
 
@@ -74,12 +86,14 @@ public class QuestionService {
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         dto.setViews(q.getViews());
         dto.setQuestionTitle(q.getQuestionTitle());
+        dto.setTags(q.getQuestionTags().stream().map(a->a.getTag()).collect(Collectors.toList()));
         return dto;
     }
 
     public QuestionDto entityToDtoLazy(Question q) {
         QuestionDto dto = new QuestionDto();
         dto.setQuestionText(q.getQuestionText());
+        dto.setQuestionTitle(q.getQuestionTitle());
         dto.setId(q.getId());
         dto.setTimestamp(q.getTimestamp());
         dto.setVoteCount(q.getUpVotes());
