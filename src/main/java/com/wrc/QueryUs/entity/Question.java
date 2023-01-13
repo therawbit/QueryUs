@@ -20,6 +20,8 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int upVotes;
+    @Column(name = "question_title")
+    private String questionTitle;
     @Column(name = "question_text")
     private String questionText;
     @ManyToOne
@@ -30,8 +32,10 @@ public class Question {
     @OneToMany(mappedBy = "question",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Answer> answers;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<User> upVotedUsers;
+
+    private int views=0;
 
 
 }

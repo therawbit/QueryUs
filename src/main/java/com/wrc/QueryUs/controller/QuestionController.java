@@ -3,6 +3,7 @@ package com.wrc.QueryUs.controller;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.QuestionDto;
+import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.service.QuestionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/question")
 @AllArgsConstructor
 public class QuestionController {
+    private final QuestionRepository questionRepository;
     private final QuestionService questionService;
 
     @PostMapping("/add")
@@ -42,7 +44,9 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<QuestionDto> getQuestion(@PathVariable int id) {
-        return new ResponseEntity<>(questionService.getQuestion(id),HttpStatus.OK);
+
+       return new ResponseEntity<>(questionService.getQuestion(id),HttpStatus.OK);
+
     }
 
     @GetMapping("/all")

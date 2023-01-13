@@ -10,8 +10,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,11 +38,17 @@ public class QuestionService {
 
     }
 
+
     public QuestionDto getQuestion(int id) {
         Question q = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question Not Found."));
+
         return entityToDto(q);
 
+    }
 
+
+     public void updateViewCount(int id) {
+        questionRepository.updateView(id);
     }
 
     public void updateQuestion(UpdateQuestionDto dto) {
@@ -61,12 +70,13 @@ public class QuestionService {
         QuestionDto dto = entityToDtoLazy(q);
         dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
+        dto.setViews(q.getViews());
         return dto;
     }
 
     public QuestionDto entityToDtoLazy(Question q) {
         QuestionDto dto = new QuestionDto();
-        dto.setQuestion(q.getQuestionText());
+        dto.setQuestionText(q.getQuestionText());
         dto.setId(q.getId());
         dto.setDate(q.getDate());
         dto.setVoteCount(q.getUpVotes());

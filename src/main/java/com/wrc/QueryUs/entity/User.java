@@ -23,6 +23,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    @Enumerated
     private UserRole role;
     private int reputation;
     private boolean enabled=false;

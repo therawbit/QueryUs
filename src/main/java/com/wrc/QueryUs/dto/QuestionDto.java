@@ -10,8 +10,10 @@ public class QuestionDto {
     private int id;
     private int voteCount;
     private Date date;
-    private String question;
+    private String questionText;
+    private String questionTitle;
     private int userId;
     private List<AnswerDto> answers;
     private boolean isUpVoted;
+    private int views;
 }
