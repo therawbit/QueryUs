@@ -15,8 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -98,7 +97,7 @@ public class QuestionService {
     }
 
     public List<QuestionDto> searchQuestion(String question, int page) {
-        return questionRepository.findByQuestionTextContainingIgnoreCase(question, PageRequest.of(page, 10)).stream().map(this::entityToDto).collect(Collectors.toList());
+        return questionRepository.findByQuestionTitleContainingIgnoreCase(question, PageRequest.of(page, 10)).stream().map(this::entityToDto).collect(Collectors.toList());
     }
     public void deleteQuestion(int id){
         Question question = questionRepository.findById(id).orElseThrow(()->new RuntimeException("Question Not Found"));
@@ -109,4 +108,6 @@ public class QuestionService {
             throw new RuntimeException("Unauthorized");
         }
     }
+
+
 }

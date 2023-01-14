@@ -57,9 +57,14 @@ public class QuestionController {
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<QuestionDto>> searchQuestion(@RequestParam String question,@RequestParam(defaultValue = "0") int page){
+    public ResponseEntity<List<QuestionDto>> searchQuestion(@RequestParam(value = "tags",required = false) String[] tags ,@RequestParam(value = "question",required = false) String question,@RequestParam(defaultValue = "0") int page){
         log.info(String.valueOf(page));
-        List<QuestionDto> questions = questionService.searchQuestion(question,page);
+        List<QuestionDto> questions;
+        if(!question.isEmpty()){
+            questions = questionService.searchQuestion(question,page);
+        }else{
+            questions = null;
+        }
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
@@ -67,5 +72,6 @@ public class QuestionController {
         questionService.deleteQuestion(id);
         return new ResponseEntity<>(new ApiResponse("Question Deleted Successfully.",true),HttpStatus.OK);
     }
+
 
 }
