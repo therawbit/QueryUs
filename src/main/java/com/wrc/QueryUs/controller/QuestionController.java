@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -21,7 +22,6 @@ import java.util.List;
 @RequestMapping("/question")
 @AllArgsConstructor
 public class QuestionController {
-    private final QuestionRepository questionRepository;
     private final QuestionService questionService;
 
     @PostMapping("/add")
@@ -57,20 +57,22 @@ public class QuestionController {
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<QuestionDto>> searchQuestion(@RequestParam(value = "tags",required = false) String[] tags ,@RequestParam(value = "question",required = false) String question,@RequestParam(defaultValue = "0") int page){
+    public ResponseEntity<List<QuestionDto>> searchQuestion(@RequestParam(value = "question") String question,@RequestParam(defaultValue = "0") int page){
         log.info(String.valueOf(page));
         List<QuestionDto> questions;
-        if(!question.isEmpty()){
-            questions = questionService.searchQuestion(question,page);
-        }else{
-            questions = null;
-        }
+        questions = questionService.searchQuestion(question,page);
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse> deleteQuestion(@PathVariable int id){
         questionService.deleteQuestion(id);
         return new ResponseEntity<>(new ApiResponse("Question Deleted Successfully.",true),HttpStatus.OK);
+    }
+    @GetMapping("/searchByTag")
+    public ResponseEntity<?> searchByTags(@RequestParam("tags")String [] tags,@RequestParam(value = "page",defaultValue = "0") int page){
+        log.info(Arrays.toString(tags));
+       return new ResponseEntity<>(questionService.searchByTags(tags,page),HttpStatus.OK);
+
     }
 
 

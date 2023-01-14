@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Slf4j
@@ -103,6 +104,15 @@ public class QuestionService {
         }else{
             throw new RuntimeException("Unauthorized");
         }
+    }
+    public List<QuestionDto> searchByTags(String[] tags,int page){
+        Set<QuestionTag> tagset= questionTagRepository.findAllByTags(Set.of(tags));
+        for(QuestionTag t:tagset){
+            log.info(t.getTag());
+        }
+       return questionRepository.findByQuestionTagsIn(new ArrayList<>(tagset),PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList());
+
+
     }
 
 
