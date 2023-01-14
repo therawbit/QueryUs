@@ -56,9 +56,6 @@ public class QuestionService {
     }
 
 
-     public void updateViewCount(int id) {
-        questionRepository.updateView(id);
-    }
 
     public void updateQuestion(UpdateQuestionDto dto) {
         Question q = questionRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Question Not Found"));
@@ -79,7 +76,6 @@ public class QuestionService {
         QuestionDto dto = entityToDtoLazy(q);
         dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
-        dto.setViews(q.getViews());
         dto.setQuestionTitle(q.getQuestionTitle());
         dto.setTags(q.getQuestionTags().stream().map(a->a.getTag()).collect(Collectors.toList()));
         return dto;

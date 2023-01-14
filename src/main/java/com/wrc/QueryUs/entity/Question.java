@@ -34,8 +34,6 @@ public class Question {
     private List<Answer> answers;
     @OneToMany(fetch = FetchType.LAZY)
     private Set<User> upVotedUsers;
-
-    private int views=0;
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<QuestionTag> questionTags;
 

@@ -10,6 +10,4 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> findByQuestionTitleContainingIgnoreCase(String questionText,Pageable pageable);
 
-    @Query(value = "update question set views=views+1 where id=?1",nativeQuery = true)
-    void updateView(int id);
 }

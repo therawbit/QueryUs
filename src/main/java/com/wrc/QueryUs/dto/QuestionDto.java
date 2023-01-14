@@ -16,6 +16,5 @@ public class QuestionDto {
     private int userId;
     private List<AnswerDto> answers;
     private boolean isUpVoted;
-    private int views;
     private List<String> tags;
 }
