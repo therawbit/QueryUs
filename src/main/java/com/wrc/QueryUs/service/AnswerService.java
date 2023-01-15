@@ -44,9 +44,8 @@ public class AnswerService {
         AnswerDto dto = new AnswerDto();
         dto.setId(answer.getId());
         dto.setAnswer(answer.getAnswer());
-        dto.setQuestionId(answer.getQuestion().getId());
         dto.setUserId(answer.getUser().getId());
-        dto.setDate(answer.getDate());
+        dto.setTimestamp(answer.getTimestamp());
         dto.setVoteCount(answer.getUpVotes());
         dto.setUpVoted(answer.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         return dto;

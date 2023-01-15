@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public class Answer {
     private int id;
 
     private String answer;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     @JsonBackReference
     private Question question;
@@ -30,7 +32,7 @@ public class Answer {
     private User user;
     private int upVotes;
     @CreationTimestamp
-    private Date date;
+    private LocalDateTime timestamp;
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> upVotedUsers;
 }

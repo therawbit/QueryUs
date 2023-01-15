@@ -17,4 +17,5 @@ public class QuestionDto {
     private List<AnswerDto> answers;
     private boolean isUpVoted;
     private List<String> tags;
+    private int answerCount;
 }

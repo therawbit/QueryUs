@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Slf4j
@@ -78,6 +77,7 @@ public class QuestionService {
         dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         dto.setQuestionTitle(q.getQuestionTitle());
+        dto.setQuestionText((q.getQuestionText()));
         dto.setTags(q.getQuestionTags().stream().map(a->a.getTag()).collect(Collectors.toList()));
         return dto;
     }
@@ -89,6 +89,7 @@ public class QuestionService {
         dto.setId(q.getId());
         dto.setTimestamp(q.getTimestamp());
         dto.setVoteCount(q.getUpVotes());
+        dto.setAnswerCount(q.getAnswers().size());
         dto.setUserId(q.getUser().getId());
         return dto;
     }
