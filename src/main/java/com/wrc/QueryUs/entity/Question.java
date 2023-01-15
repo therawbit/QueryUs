@@ -33,8 +33,10 @@ public class Question {
     @JsonManagedReference
     private List<Answer> answers;
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "question_upvote")
     private Set<User> upVotedUsers;
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "question_tag")
     private Set<QuestionTag> questionTags;
 
 

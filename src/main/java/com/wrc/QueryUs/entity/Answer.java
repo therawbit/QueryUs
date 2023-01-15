@@ -34,5 +34,6 @@ public class Answer {
     @CreationTimestamp
     private LocalDateTime timestamp;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "answer_upvote")
     private Set<User> upVotedUsers;
 }
