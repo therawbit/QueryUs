@@ -3,6 +3,7 @@ package com.wrc.QueryUs.service;
 import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.QuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
+import com.wrc.QueryUs.entity.Duplicate;
 import com.wrc.QueryUs.entity.Question;
 import com.wrc.QueryUs.entity.QuestionTag;
 import com.wrc.QueryUs.entity.User;
@@ -78,7 +79,9 @@ public class QuestionService {
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
         dto.setQuestionTitle(q.getQuestionTitle());
         dto.setQuestionText((q.getQuestionText()));
-        dto.setTags(q.getQuestionTags().stream().map(a->a.getTag()).collect(Collectors.toList()));
+        dto.setOriginalQuestionId(q.getDuplicate().getQuestionId());
+        dto.setDupMarkingUserId(q.getDuplicate().getUser().getId());
+
         return dto;
     }
 
@@ -91,6 +94,8 @@ public class QuestionService {
         dto.setVoteCount(q.getUpVotes());
         dto.setAnswerCount(q.getAnswers().size());
         dto.setUserId(q.getUser().getId());
+        dto.setTags(q.getQuestionTags().stream().map(QuestionTag::getTag).collect(Collectors.toList()));
+
         return dto;
     }
 
@@ -117,4 +122,16 @@ public class QuestionService {
     }
 
 
+    public void markDuplicate(int id,String link) {
+        String[] a = link.split("/");
+        int orgId = Integer.parseInt(a[a.length-1]);
+        boolean exist = questionRepository.existsById(id);
+        if(exist){
+            Question q = questionRepository.findById(id).orElseThrow(()->new RuntimeException("Question do not exist"));
+            User u = queryUtils.getCurrentLoggedInUser();
+            q.setDuplicate(new Duplicate(orgId,u));
+            questionRepository.save(q);
+
+        }
+    }
 }

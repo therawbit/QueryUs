@@ -74,6 +74,14 @@ public class QuestionController {
        return new ResponseEntity<>(questionService.searchByTags(tags,page),HttpStatus.OK);
 
     }
+    @PostMapping("/duplicate/{id}")
+    public ResponseEntity<ApiResponse> markQuestionDuplicate(@PathVariable("id") int id,@RequestParam("link") String link){
+        if(link.trim().isEmpty()){
+            return new ResponseEntity<>(new ApiResponse("No link provided",false),HttpStatus.BAD_REQUEST);
+        }
+        questionService.markDuplicate(id,link);
+        return new ResponseEntity<>(new ApiResponse("Question Marked as Duplicate",true),HttpStatus.OK);
+    }
 
 
 }

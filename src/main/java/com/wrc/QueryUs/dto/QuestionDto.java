@@ -1,7 +1,9 @@
 package com.wrc.QueryUs.dto;
 
+import com.wrc.QueryUs.entity.Duplicate;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 public class QuestionDto {
     private int id;
     private int voteCount;
-    private LocalDateTime timestamp;
+    private Date timestamp;
     private String questionText;
     private String questionTitle;
     private int userId;
@@ -18,4 +20,7 @@ public class QuestionDto {
     private boolean isUpVoted;
     private List<String> tags;
     private int answerCount;
+
+    private int originalQuestionId;
+    private int dupMarkingUserId;
 }

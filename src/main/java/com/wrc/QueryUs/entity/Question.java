@@ -1,11 +1,14 @@
 package com.wrc.QueryUs.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +31,7 @@ public class Question {
     @JoinColumn(name = "user_id")
     private User user;
     @CreationTimestamp
-    private LocalDateTime timestamp;
+    private Date timestamp;
     @OneToMany(mappedBy = "question",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Answer> answers;
@@ -38,6 +41,10 @@ public class Question {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "question_tag")
     private Set<QuestionTag> questionTags;
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "duplicate_id")
+    private Duplicate duplicate;
 
 
 }
