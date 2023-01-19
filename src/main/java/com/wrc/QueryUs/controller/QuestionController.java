@@ -4,7 +4,6 @@ import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.QuestionDto;
-import com.wrc.QueryUs.repository.QuestionRepository;
 import com.wrc.QueryUs.service.QuestionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -51,7 +51,10 @@ public class QuestionService {
 
     public QuestionDto getQuestion(int id) {
         Question q = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question Not Found."));
-        return entityToDto(q);
+        QuestionDto dto = entityToDto(q);
+        q.setViews(q.getViews()+1);
+        questionRepository.save(q);
+        return dto;
     }
 
 
@@ -92,6 +95,7 @@ public class QuestionService {
         dto.setAnswerCount(q.getAnswers().size());
         dto.setUserId(q.getUser().getId());
         dto.setTags(q.getQuestionTags().stream().map(QuestionTag::getTag).collect(Collectors.toList()));
+        dto.setViews(q.getViews());
 
         return dto;
     }

@@ -46,5 +46,6 @@ public class Question {
     @JoinColumn(name = "duplicate_id")
     private Duplicate duplicate;
 
+    private int views;
 
 }
