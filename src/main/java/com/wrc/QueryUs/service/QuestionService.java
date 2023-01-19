@@ -51,9 +51,7 @@ public class QuestionService {
 
     public QuestionDto getQuestion(int id) {
         Question q = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question Not Found."));
-
         return entityToDto(q);
-
     }
 
 
@@ -77,11 +75,10 @@ public class QuestionService {
         QuestionDto dto = entityToDtoLazy(q);
         dto.setAnswers(q.getAnswers().stream().map(answerService::entityToDto).collect(Collectors.toList()));
         dto.setUpVoted(q.getUpVotedUsers().contains(queryUtils.getCurrentLoggedInUser()));
-        dto.setQuestionTitle(q.getQuestionTitle());
-        dto.setQuestionText((q.getQuestionText()));
-        dto.setOriginalQuestionId(q.getDuplicate().getQuestionId());
-        dto.setDupMarkingUserId(q.getDuplicate().getUser().getId());
-
+        if(q.getDuplicate()!=null){
+            dto.setOriginalQuestionId(q.getDuplicate().getQuestionId());
+            dto.setDupMarkingUserId(q.getDuplicate().getUser().getId());
+        }
         return dto;
     }
 

@@ -45,9 +45,11 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionDto> getQuestion(@PathVariable int id) {
+    public ResponseEntity<QuestionDto> getQuestion(@PathVariable("id") int id) {
 
-       return new ResponseEntity<>(questionService.getQuestion(id),HttpStatus.OK);
+        QuestionDto dto = questionService.getQuestion(id);
+        log.info(dto.toString());
+       return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
 
