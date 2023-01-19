@@ -3,6 +3,7 @@ package com.wrc.QueryUs.controller;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.RegisterDto;
 import com.wrc.QueryUs.dto.UserDto;
+import com.wrc.QueryUs.entity.UserRole;
 import com.wrc.QueryUs.service.TokenService;
 import com.wrc.QueryUs.service.UserService;
 import lombok.AllArgsConstructor;
@@ -33,9 +34,7 @@ public class UserController {
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
             return new ResponseEntity<>(new ApiResponse("Password do not match.", false), HttpStatus.BAD_REQUEST);
         }
-        if(!isValidEmail(registerDto.getEmail(),registerDto.getUserRole().ordinal()==0)){
-            return new ResponseEntity<>(new ApiResponse("Not a Valid IOE Email for "+registerDto.getUserRole().toString(),false),HttpStatus.BAD_REQUEST);
-        }
+        registerDto.setUserRole(getRoleFromEmail(registerDto.getEmail()));
 
         userService.registerUser(registerDto);
         return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
@@ -57,14 +56,18 @@ public class UserController {
         return new ResponseEntity<>(new ApiResponse("Email Verified",true),HttpStatus.OK);
 
     }
-    private boolean isValidEmail(String email,boolean isStudent){
+    private UserRole getRoleFromEmail(String email){
         String stRegex="(...\\d\\d\\d){2}@...\\.edu\\.np";
         String tcRegex=".*@...\\.edu\\.np";
-        if(isStudent){
-            return email.matches(stRegex);
+        if(email.matches(stRegex)){
+            return UserRole.STUDENT;
+        }else if(email.matches(tcRegex)){
+            return UserRole.TEACHER;
         }else{
-            return email.matches(tcRegex);
+            throw new RuntimeException("Not a Valid IOE email.");
         }
+
+
     }
 
 }

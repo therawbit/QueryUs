@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +23,6 @@ public class RegisterDto {
     @Length(min = 8,message = "Password should contains at least 8 characters.")
     private String password;
     private String confirmPassword;
-    @NotNull(message = "NO user role defined.")
     private UserRole userRole;
 
 }
