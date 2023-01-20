@@ -11,6 +11,6 @@ public interface QuestionTagRepository extends JpaRepository<QuestionTag,Integer
 
     Optional<QuestionTag> findByTag(String tag);
 
-    @Query(value = "select * from question_tag where tag in ?1",nativeQuery = true)
+    @Query(value = "select * from tags where tag in ?1",nativeQuery = true)
     Set<QuestionTag> findAllByTags(Set<String> tags);
 }
