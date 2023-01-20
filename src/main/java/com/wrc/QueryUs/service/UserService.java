@@ -1,7 +1,6 @@
 package com.wrc.QueryUs.service;
 
 
-import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.RegisterDto;
 import com.wrc.QueryUs.dto.UserDto;
 import com.wrc.QueryUs.entity.User;
@@ -10,13 +9,10 @@ import com.wrc.QueryUs.repository.TokenRepository;
 import com.wrc.QueryUs.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -85,7 +81,7 @@ public class UserService {
     }
 
     private void sendMail(String email,String firstName,String token) {
-        emailService.send(email,buildEmail(firstName,"http://localhost:8080/user/verify?token="+token));
+        emailService.send(email,buildEmail(firstName,"https://queryus-production.up.railway.app/user/verify?token="+token));
     }
     private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +

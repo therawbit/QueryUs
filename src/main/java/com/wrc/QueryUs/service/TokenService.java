@@ -1,6 +1,5 @@
 package com.wrc.QueryUs.service;
 
-import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.entity.VerificationToken;
 import com.wrc.QueryUs.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
