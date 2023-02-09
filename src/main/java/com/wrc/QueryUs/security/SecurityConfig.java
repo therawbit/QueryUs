@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +33,7 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
     public static String[] PUBLIC_URLS={
-            "/user/verify","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**",
+            "/user/verify","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**","/user/login"
     };
 
     @Bean
@@ -40,9 +42,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .mvcMatchers(HttpMethod.POST,"/user/register").permitAll()
                 .mvcMatchers(PUBLIC_URLS).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().and() .httpBasic();
+                .anyRequest().authenticated();
         return http.build();
     }
 
@@ -53,6 +53,11 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
 
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
     @Bean
