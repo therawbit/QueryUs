@@ -10,6 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +27,7 @@ public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
 
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegisterDto registerDto, Errors errors) {
@@ -39,6 +44,14 @@ public class UserController {
         userService.registerUser(registerDto);
         return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
 
+    }
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse> login(@RequestParam String username,@RequestParam String password){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                username,password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>(new ApiResponse("Logged In Successfully",true), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
