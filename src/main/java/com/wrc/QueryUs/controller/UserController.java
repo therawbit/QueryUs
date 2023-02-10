@@ -1,6 +1,7 @@
 package com.wrc.QueryUs.controller;
 
 import com.wrc.QueryUs.dto.ApiResponse;
+import com.wrc.QueryUs.dto.LoginDto;
 import com.wrc.QueryUs.dto.RegisterDto;
 import com.wrc.QueryUs.dto.UserDto;
 import com.wrc.QueryUs.entity.UserRole;
@@ -46,9 +47,9 @@ public class UserController {
 
     }
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestParam String username,@RequestParam String password){
+    public ResponseEntity<ApiResponse> login(@RequestBody LoginDto dto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                username,password));
+                dto.getUsername(),dto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>(new ApiResponse("Logged In Successfully",true), HttpStatus.OK);
