@@ -71,8 +71,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://queryus.sudarshandevkota.com.np","https://queryus.sudarshandevkota.com.np"));
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "content-type","Cookie"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type", "Cookie"));
+        configuration.setExposedHeaders(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
