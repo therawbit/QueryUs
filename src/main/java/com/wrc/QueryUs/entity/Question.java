@@ -1,14 +1,11 @@
 package com.wrc.QueryUs.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +28,7 @@ public class Question {
     @JoinColumn(name = "user_id")
     private User user;
     @CreationTimestamp
-    private Date timestamp;
+    private LocalDateTime timestamp;
     @OneToMany(mappedBy = "question",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Answer> answers;
