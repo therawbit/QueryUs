@@ -40,7 +40,7 @@ public class QuestionService {
         question.setQuestionTags(dto.getTags().stream().map(
                 t->{
                     Optional<QuestionTag> op = questionTagRepository.findByTag(t);
-                    return op.orElseGet(() -> new QuestionTag(t));
+                    return op.orElseGet(() -> new QuestionTag(t.toLowerCase()));
                 }
         ).collect(Collectors.toSet()));
         questionRepository.save(question);
@@ -100,8 +100,11 @@ public class QuestionService {
         return dto;
     }
 
-    public List<QuestionDto> searchQuestion(String question, int page) {
-        return questionRepository.findByQuestionTitleContainingIgnoreCase(question, PageRequest.of(page, 10)).stream().map(this::entityToDto).collect(Collectors.toList());
+    public Set<QuestionDto> searchQuestion(String question, int page) {
+        List<QuestionDto> searchResults = searchByTags(question.split(" "),page);
+        String words = question.replace(" ","&");
+        searchResults.addAll(questionRepository.search(words,PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList()));
+        return new HashSet<>(searchResults);
     }
     public void deleteQuestion(int id){
         Question question = questionRepository.findById(id).orElseThrow(()->new RuntimeException("Question Not Found"));
@@ -113,12 +116,14 @@ public class QuestionService {
         }
     }
     public List<QuestionDto> searchByTags(String[] tags,int page){
+        log.info(tags[0]);
         Set<QuestionTag> tagset= questionTagRepository.findAllByTags(Set.of(tags));
         for(QuestionTag t:tagset){
             log.info(t.getTag());
         }
-       return questionRepository.findByQuestionTagsIn(new ArrayList<>(tagset),PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList());
 
+      return questionRepository.findByQuestionTagsIn(new ArrayList<>(tagset),PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList());
+//        return questionRepository.findByQuestionTagsIn(new ArrayList<>(tagset),PageRequest.of(page,10));
 
     }
 

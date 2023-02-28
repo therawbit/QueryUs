@@ -1,9 +1,9 @@
 package com.wrc.QueryUs.controller;
 
 import com.wrc.QueryUs.dto.AddQuestionDto;
-import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.QuestionDto;
+import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.service.QuestionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +13,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -58,9 +58,9 @@ public class QuestionController {
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<QuestionDto>> searchQuestion(@RequestParam(value = "question") String question,@RequestParam(defaultValue = "0") int page){
+    public ResponseEntity<Set<QuestionDto>> searchQuestion(@RequestParam(value = "query") String question, @RequestParam(defaultValue = "0") int page){
         log.info(String.valueOf(page));
-        List<QuestionDto> questions;
+        Set<QuestionDto> questions;
         questions = questionService.searchQuestion(question,page);
         return new ResponseEntity<>(questions,HttpStatus.OK);
     }
@@ -69,12 +69,12 @@ public class QuestionController {
         questionService.deleteQuestion(id);
         return new ResponseEntity<>(new ApiResponse("Question Deleted Successfully.",true),HttpStatus.OK);
     }
-    @GetMapping("/searchByTag")
-    public ResponseEntity<?> searchByTags(@RequestParam("tags")String [] tags,@RequestParam(value = "page",defaultValue = "0") int page){
-        log.info(Arrays.toString(tags));
-       return new ResponseEntity<>(questionService.searchByTags(tags,page),HttpStatus.OK);
-
-    }
+//    @GetMapping("/searchByTag")
+//    public ResponseEntity<?> searchByTags(@RequestParam("tags")String [] tags,@RequestParam(value = "page",defaultValue = "0") int page){
+//        log.info(Arrays.toString(tags));
+//       return new ResponseEntity<>(questionService.searchByTags(tags,page),HttpStatus.OK);
+//
+//    }
     @PostMapping("/duplicate/{id}")
     public ResponseEntity<ApiResponse> markQuestionDuplicate(@PathVariable("id") int id,@RequestParam("link") String link){
         if(link.trim().isEmpty()){
