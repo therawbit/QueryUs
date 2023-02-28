@@ -101,8 +101,8 @@ public class QuestionService {
     }
 
     public Set<QuestionDto> searchQuestion(String question, int page) {
-        List<QuestionDto> searchResults = searchByTags(question.split(" "),page);
         String words = question.replace(" ","&");
+        List<QuestionDto> searchResults = searchByTags(words,page);
         searchResults.addAll(questionRepository.search(words,PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList()));
         return new HashSet<>(searchResults);
     }
@@ -115,9 +115,9 @@ public class QuestionService {
             throw new RuntimeException("Unauthorized");
         }
     }
-    public List<QuestionDto> searchByTags(String[] tags,int page){
-        log.info(tags[0]);
-        Set<QuestionTag> tagset= questionTagRepository.findAllByTags(Set.of(tags));
+    public List<QuestionDto> searchByTags(String tags,int page){
+
+        Set<QuestionTag> tagset= questionTagRepository.findAllByTags(tags);
         for(QuestionTag t:tagset){
             log.info(t.getTag());
         }
