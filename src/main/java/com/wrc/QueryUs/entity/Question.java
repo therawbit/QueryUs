@@ -32,7 +32,7 @@ public class Question {
     @OneToMany(mappedBy = "question",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Answer> answers;
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "question_upvote")
     private Set<User> upVotedUsers;
     @ManyToMany(cascade = CascadeType.ALL)

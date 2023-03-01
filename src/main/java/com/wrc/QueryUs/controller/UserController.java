@@ -1,5 +1,6 @@
 package com.wrc.QueryUs.controller;
 
+import com.wrc.QueryUs.jwt.JWTService;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.LoginDto;
 import com.wrc.QueryUs.dto.RegisterDto;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
 
+    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
@@ -47,12 +49,18 @@ public class UserController {
 
     }
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestBody LoginDto dto){
+    public String login(@RequestBody LoginDto dto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 dto.getUsername(),dto.getPassword()));
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(dto.getUsername());
+        } else {
+            throw new UsernameNotFoundException("invalid user request !");
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(new ApiResponse("Logged In Successfully",true), HttpStatus.OK);
+
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        return new ResponseEntity<>(new ApiResponse("Logged In Successfully",true), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
