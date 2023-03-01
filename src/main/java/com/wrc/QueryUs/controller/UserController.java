@@ -49,11 +49,11 @@ public class UserController {
 
     }
     @PostMapping("/login")
-    public String login(@RequestBody LoginDto dto){
+    public ResponseEntity<?> login(@RequestBody LoginDto dto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 dto.getUsername(),dto.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(dto.getUsername());
+            return new ResponseEntity<>(new ApiResponse(jwtService.generateToken(dto.getUsername()),true),HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }

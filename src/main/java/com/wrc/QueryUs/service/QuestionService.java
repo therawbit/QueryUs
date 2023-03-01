@@ -102,8 +102,8 @@ public class QuestionService {
 
     public Set<QuestionDto> searchQuestion(String question, int page) {
         String words = question.replace(" ","&");
-        List<QuestionDto> searchResults = searchByTags(words,page);
-        searchResults.addAll(questionRepository.search(words,PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList()));
+        List<QuestionDto> searchResults = questionRepository.search(words,PageRequest.of(page,10)).stream().map(this::entityToDto).collect(Collectors.toList());
+        searchResults.addAll(searchByTags(question.replace(" ","|"),page));
         return new HashSet<>(searchResults);
     }
     public void deleteQuestion(int id){
