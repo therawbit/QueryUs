@@ -71,7 +71,7 @@ public class QuestionService {
     }
 
     public List<QuestionDto> getAllQuestions(int pageNo) {
-        return questionRepository.findAll(PageRequest.of(pageNo, 10)).stream().map(this::entityToDtoLazy).collect(Collectors.toList());
+        return questionRepository.findAllByOrderByTimestampDesc(PageRequest.of(pageNo, 10)).stream().map(this::entityToDtoLazy).collect(Collectors.toList());
     }
 
     public QuestionDto entityToDto(Question q) {

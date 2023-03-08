@@ -13,8 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
-    List<Question> findByQuestionTitleContainingIgnoreCase(String questionText,Pageable pageable);
-
+    List<Question> findAllByOrderByTimestampDesc(Pageable pageable);
     List<Question> findByQuestionTagsIn(List<QuestionTag> tags,Pageable pageable);
     @Query(value = "SELECT * FROM question WHERE to_tsvector('english', question_title || ' ' || question_text) @@ to_tsquery('english', ?1)" ,
                      countQuery = "SELECT count(*) FROM question WHERE to_tsvector('english', question_title || ' ' || question_text) @@ to_tsquery('english', ?1)",nativeQuery = true)
