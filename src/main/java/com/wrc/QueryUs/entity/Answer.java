@@ -21,6 +21,7 @@ public class Answer {
     @Id @GeneratedValue
     private int id;
 
+    @Column(columnDefinition = "TEXT")
     private String answer;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
