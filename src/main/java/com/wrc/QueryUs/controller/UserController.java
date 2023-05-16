@@ -91,5 +91,15 @@ public class UserController {
 
 
     }
+    @PostMapping("/auth/verify")
+    public ResponseEntity<ApiResponse> resendToken(@RequestParam String email){
+        try {
+            int r = getRoleFromEmail(email).ordinal();
+        }catch (Exception e){
+            return new ResponseEntity<>(new ApiResponse(e.getLocalizedMessage(),false),HttpStatus.BAD_REQUEST);
+        }
+        userService.resentToken(email);
+        return new ResponseEntity<>(new ApiResponse("Verification Token Sent",true),HttpStatus.OK);
+    }
 
 }

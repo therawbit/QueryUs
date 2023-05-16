@@ -152,4 +152,8 @@ public class UserService {
                 "</div></div>";
     }
 
+    public void resentToken(String email) {
+        User u = userRepository.getByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Email do not exist."));
+        generateToken(u);
+    }
 }
