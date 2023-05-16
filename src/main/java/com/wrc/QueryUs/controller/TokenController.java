@@ -28,7 +28,7 @@ public class TokenController {
     }
     @PostMapping("/resend")
     public ResponseEntity<ApiResponse> resendToken(@RequestParam String email){
-        userService.resentToken(email);
+        userService.resendToken(email);
         return new ResponseEntity<>(new ApiResponse("Verification Token Sent",true),HttpStatus.OK);
     }
 }

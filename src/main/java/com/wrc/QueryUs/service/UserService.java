@@ -87,11 +87,15 @@ public class UserService {
 //    }
 
 
-    public void resentToken(String email) {
+    public void resendToken(String email) {
         User u = userRepository.getByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Email do not exist."));
         if(u.isEnabled())
             throw new RuntimeException("User Already Activated");
         else
             generateToken(u,true);
+    }
+    public void resetPasswordToken(String email){
+        User user = userRepository.getByEmail(email).orElseThrow(()-> new RuntimeException("Email does not exist."));
+        generateToken(user,false);
     }
 }

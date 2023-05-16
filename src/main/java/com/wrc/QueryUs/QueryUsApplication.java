@@ -5,8 +5,9 @@ import com.wrc.QueryUs.security.QueryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
-
+@EnableAsync
 @SpringBootApplication
 public class QueryUsApplication {
 

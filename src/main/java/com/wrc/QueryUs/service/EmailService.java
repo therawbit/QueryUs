@@ -39,6 +39,7 @@ public class EmailService {
             throw new IllegalStateException("failed to send email");
         }
     }
+    @Async
     public void sendActivationEmail(String email,String firstName,String token){
         send(email,buildActivationEmail(firstName,backendUrl+"/token/verify?token="+token));
     }
@@ -178,7 +179,7 @@ public class EmailService {
                 "\n" +
                 "</div></div>";
     }
-
+    @Async
     public void sendPasswordResetEmail(String email, String firstName, String token) {
         send(email,buildPasswordResetEmail(firstName,frontEndUrl+"/reset-password?token="+token));
     }

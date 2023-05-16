@@ -39,7 +39,7 @@ public class SecurityConfig {
     @Autowired
     private JWTFilter jwtFilter;
     public static String[] PUBLIC_URLS={
-            "/user/verify","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**","/user/login"
+            "/token/verify","/token/resend","/v3/api-docs","/v2/api-docs","/swagger-resources/**","/swagger-ui/**","/webjars/**","/user/login"
     };
 
     @Bean
