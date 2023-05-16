@@ -63,12 +63,12 @@ public class UserController {
 //        return new ResponseEntity<>(new ApiResponse("Logged In Successfully",true), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/info/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         UserDto u = userService.getUser(id);
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
-    @GetMapping("/verify")
+    @GetMapping("/token/verify")
     public ResponseEntity<ApiResponse> verifyUser(@RequestParam("token") String token){
         if(token.isEmpty()){
             return new ResponseEntity<>(new ApiResponse("Invalid Token",false),HttpStatus.BAD_REQUEST);
@@ -91,7 +91,7 @@ public class UserController {
 
 
     }
-    @PostMapping("/auth/verify")
+    @PostMapping("/token/resend")
     public ResponseEntity<ApiResponse> resendToken(@RequestParam String email){
         try {
             int r = getRoleFromEmail(email).ordinal();

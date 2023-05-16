@@ -154,6 +154,9 @@ public class UserService {
 
     public void resentToken(String email) {
         User u = userRepository.getByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Email do not exist."));
-        generateToken(u);
+        if(u.isEnabled())
+            throw new RuntimeException("User Already Activated");
+        else
+            generateToken(u);
     }
 }
