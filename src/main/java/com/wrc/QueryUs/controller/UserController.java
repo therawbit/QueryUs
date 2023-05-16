@@ -68,16 +68,6 @@ public class UserController {
         UserDto u = userService.getUser(id);
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
-    @GetMapping("/token/verify")
-    public ResponseEntity<ApiResponse> verifyUser(@RequestParam("token") String token){
-        if(token.isEmpty()){
-            return new ResponseEntity<>(new ApiResponse("Invalid Token",false),HttpStatus.BAD_REQUEST);
-
-        }
-        tokenService.confirmToken(token);
-        return new ResponseEntity<>(new ApiResponse("Email Verified",true),HttpStatus.OK);
-
-    }
     private UserRole getRoleFromEmail(String email){
         String stRegex="(...\\d\\d\\d){2}@...\\.edu\\.np";
         String tcRegex=".*@...\\.edu\\.np";
@@ -91,15 +81,6 @@ public class UserController {
 
 
     }
-    @PostMapping("/token/resend")
-    public ResponseEntity<ApiResponse> resendToken(@RequestParam String email){
-        try {
-            int r = getRoleFromEmail(email).ordinal();
-        }catch (Exception e){
-            return new ResponseEntity<>(new ApiResponse(e.getLocalizedMessage(),false),HttpStatus.BAD_REQUEST);
-        }
-        userService.resentToken(email);
-        return new ResponseEntity<>(new ApiResponse("Verification Token Sent",true),HttpStatus.OK);
-    }
+
 
 }
