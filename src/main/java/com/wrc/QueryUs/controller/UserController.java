@@ -48,12 +48,13 @@ public class UserController {
         return new ResponseEntity<>(new ApiResponse("User created successfully.", true), HttpStatus.OK);
 
     }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto dto){
+    public ResponseEntity<?> login(@RequestBody LoginDto dto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                dto.getUsername(),dto.getPassword()));
+                dto.getUsername(), dto.getPassword()));
         if (authentication.isAuthenticated()) {
-            return new ResponseEntity<>(new ApiResponse(jwtService.generateToken(dto.getUsername()),true),HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse(jwtService.generateToken(dto.getUsername()), true), HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
@@ -68,14 +69,15 @@ public class UserController {
         UserDto u = userService.getUser(id);
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
-    private UserRole getRoleFromEmail(String email){
-        String stRegex="(...\\d\\d\\d){2}@...\\.edu\\.np";
-        String tcRegex=".*@...\\.edu\\.np";
-        if(email.matches(stRegex)){
+
+    private UserRole getRoleFromEmail(String email) {
+        String stRegex = "(...\\d\\d\\d){2}@...\\.edu\\.np";
+        String tcRegex = ".*@...\\.edu\\.np";
+        if (email.matches(stRegex)) {
             return UserRole.STUDENT;
-        }else if(email.matches(tcRegex)){
+        } else if (email.matches(tcRegex)) {
             return UserRole.TEACHER;
-        }else{
+        } else {
             throw new RuntimeException("Not a Valid IOE email.");
         }
 

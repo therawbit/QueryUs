@@ -22,7 +22,7 @@ public class TokenController {
             return new ResponseEntity<>(new ApiResponse("Invalid Token",false), HttpStatus.BAD_REQUEST);
 
         }
-        tokenService.confirmToken(token);
+        tokenService.confirmUser(token);
         return new ResponseEntity<>(new ApiResponse("Email Verified",true),HttpStatus.OK);
 
     }

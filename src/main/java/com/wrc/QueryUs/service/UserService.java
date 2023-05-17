@@ -1,6 +1,7 @@
 package com.wrc.QueryUs.service;
 
 
+import com.wrc.QueryUs.dto.PasswordResetDto;
 import com.wrc.QueryUs.dto.RegisterDto;
 import com.wrc.QueryUs.dto.UserDto;
 import com.wrc.QueryUs.entity.User;
@@ -97,5 +98,10 @@ public class UserService {
     public void resetPasswordToken(String email){
         User user = userRepository.getByEmail(email).orElseThrow(()-> new RuntimeException("Email does not exist."));
         generateToken(user,false);
+    }
+
+    public void changePassword(User user,String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
