@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class Answer {
     private User user;
     private int upVotes;
     @CreationTimestamp
-    private Date timestamp;
+    private LocalDateTime timestamp;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "answer_upvote")
     private Set<User> upVotedUsers;
