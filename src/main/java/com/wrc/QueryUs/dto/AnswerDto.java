@@ -2,6 +2,7 @@ package com.wrc.QueryUs.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -10,6 +11,6 @@ public class AnswerDto {
     private String answer;
     private int userId;
     private int voteCount;
-    private Date timestamp;
+    private LocalDateTime timestamp;
     private boolean isUpVoted;
 }
