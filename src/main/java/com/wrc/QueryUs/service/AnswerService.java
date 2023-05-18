@@ -60,4 +60,10 @@ public class AnswerService {
             throw new RuntimeException("Unauthorized");
         }
     }
+
+    public long getAnswerCount() {
+        User u = queryUtils.getCurrentLoggedInUser();
+        return answerRepository.countAllByUser(u);
+
+    }
 }

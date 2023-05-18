@@ -36,4 +36,9 @@ public class AnswerController {
         answerService.deleteAnswer(id);
         return new ResponseEntity<>(new ApiResponse("Answer Deleted Successfully.",true),HttpStatus.OK);
     }
+    @GetMapping("/count/me")
+    public ResponseEntity<ApiResponse> getAnswerCount(){
+        long count = answerService.getAnswerCount();
+        return new ResponseEntity<>(new ApiResponse(String.valueOf(count),true),HttpStatus.OK);
+    }
 }
