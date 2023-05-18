@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -144,5 +145,9 @@ public class QuestionService {
     public List<QuestionDto> getUserQuestions() {
         User u = queryUtils.getCurrentLoggedInUser();
         return questionRepository.findAllByUserOrderByTimestampDesc(u).stream().map(this::entityToDtoLazy).collect(Collectors.toList());
+    }
+
+    public List<String> getTags() {
+        return questionTagRepository.getsomeTags();
     }
 }

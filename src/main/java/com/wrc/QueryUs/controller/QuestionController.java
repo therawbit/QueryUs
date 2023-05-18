@@ -91,6 +91,10 @@ public class QuestionController {
         return new ResponseEntity<>(questions,HttpStatus.OK);
 
     }
+    @GetMapping("/tags")
+    public ResponseEntity<List<String>> getTags(){
+        return new ResponseEntity<>( questionService.getTags(),HttpStatus.OK);
+    }
 
 
 }
