@@ -63,7 +63,12 @@ public class UserController {
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 //        return new ResponseEntity<>(new ApiResponse("Logged In Successfully",true), HttpStatus.OK);
     }
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getCurrentUser(){
+        UserDto u = userService.getCurrentUser();
+        return new ResponseEntity<>(u, HttpStatus.OK);
 
+    }
     @GetMapping("/info/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         UserDto u = userService.getUser(id);

@@ -1,13 +1,13 @@
 package com.wrc.QueryUs.service;
 
 
-import com.wrc.QueryUs.dto.PasswordResetDto;
 import com.wrc.QueryUs.dto.RegisterDto;
 import com.wrc.QueryUs.dto.UserDto;
 import com.wrc.QueryUs.entity.User;
 import com.wrc.QueryUs.entity.VerificationToken;
 import com.wrc.QueryUs.repository.TokenRepository;
 import com.wrc.QueryUs.repository.UserRepository;
+import com.wrc.QueryUs.security.QueryUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final QueryUtils queryUtils;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private EmailService emailService;
@@ -103,5 +103,10 @@ public class UserService {
     public void changePassword(User user,String newPassword) {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    public UserDto getCurrentUser() {
+        User u = queryUtils.getCurrentLoggedInUser();
+        return entityToDto(u);
     }
 }
