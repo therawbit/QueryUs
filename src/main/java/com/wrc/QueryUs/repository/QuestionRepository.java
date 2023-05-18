@@ -2,6 +2,7 @@ package com.wrc.QueryUs.repository;
 
 import com.wrc.QueryUs.entity.Question;
 import com.wrc.QueryUs.entity.QuestionTag;
+import com.wrc.QueryUs.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     @Query(value = "SELECT * FROM question WHERE to_tsvector('english', question_title || ' ' || question_text) @@ to_tsquery('english', ?1)" ,
                      countQuery = "SELECT count(*) FROM question WHERE to_tsvector('english', question_title || ' ' || question_text) @@ to_tsquery('english', ?1)",nativeQuery = true)
     List<Question> search(String query,Pageable pageable);
+
+    List<Question> findAllByUserOrderByTimestampDesc(User u);
 
 }

@@ -84,5 +84,13 @@ public class QuestionController {
         return new ResponseEntity<>(new ApiResponse("Question Marked as Duplicate",true),HttpStatus.OK);
     }
 
+    @GetMapping("/user/me")
+    public ResponseEntity<List<QuestionDto>> getUserQuestions(){
+        List<QuestionDto> questions = questionService.getUserQuestions();
+
+        return new ResponseEntity<>(questions,HttpStatus.OK);
+
+    }
+
 
 }

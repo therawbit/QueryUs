@@ -140,4 +140,9 @@ public class QuestionService {
 
         }
     }
+
+    public List<QuestionDto> getUserQuestions() {
+        User u = queryUtils.getCurrentLoggedInUser();
+        return questionRepository.findAllByUserOrderByTimestampDesc(u).stream().map(this::entityToDtoLazy).collect(Collectors.toList());
+    }
 }
