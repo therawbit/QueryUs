@@ -3,7 +3,6 @@ package com.wrc.QueryUs.controller;
 import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.ApiResponse;
 import com.wrc.QueryUs.dto.QuestionDto;
-import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.service.QuestionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +33,12 @@ public class QuestionController {
         return new ResponseEntity<>(new ApiResponse("Question Posted Successfully.", true), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<ApiResponse> updateQuestion(@Valid @RequestBody UpdateQuestionDto dto, Errors errors) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse> updateQuestion(@PathVariable int id,@Valid @RequestBody AddQuestionDto dto, Errors errors) {
         if (errors.getAllErrors().size() > 0) {
             return new ResponseEntity<>(new ApiResponse(errors.getAllErrors().get(0).getDefaultMessage(), false), HttpStatus.BAD_REQUEST);
         }
-        questionService.updateQuestion(dto);
+        questionService.updateQuestion(id,dto);
         return new ResponseEntity<>(new ApiResponse("Updated Successfully",true),HttpStatus.ACCEPTED);
     }
 

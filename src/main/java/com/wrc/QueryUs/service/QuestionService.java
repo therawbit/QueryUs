@@ -2,7 +2,6 @@ package com.wrc.QueryUs.service;
 
 import com.wrc.QueryUs.dto.AddQuestionDto;
 import com.wrc.QueryUs.dto.QuestionDto;
-import com.wrc.QueryUs.dto.UpdateQuestionDto;
 import com.wrc.QueryUs.entity.Duplicate;
 import com.wrc.QueryUs.entity.Question;
 import com.wrc.QueryUs.entity.QuestionTag;
@@ -60,10 +59,18 @@ public class QuestionService {
 
 
 
-    public void updateQuestion(UpdateQuestionDto dto) {
-        Question q = questionRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Question Not Found"));
-        if (q.getUser().getId() == dto.getUserId()) {
-            q.setQuestionText(dto.getQuestion());
+    public void updateQuestion(int questionId,AddQuestionDto dto) {
+        Question q = questionRepository.findById(questionId).orElseThrow(() -> new RuntimeException("Question Not Found"));
+        User u = queryUtils.getCurrentLoggedInUser();
+        if (q.getUser().getId()==u.getId()) {
+            q.setQuestionText(dto.getQuestionText());
+            q.setQuestionTitle(dto.getQuestionTitle());
+            q.setQuestionTags(dto.getTags().stream().map(
+                    t->{
+                        Optional<QuestionTag> op = questionTagRepository.findByTag(t);
+                        return op.orElseGet(() -> new QuestionTag(t.toLowerCase()));
+                    }
+            ).collect(Collectors.toSet()));
             questionRepository.save(q);
         } else {
             throw new RuntimeException("Unauthorized");
