@@ -25,15 +25,15 @@ public class EmailService {
 
 
     @Async
-    public void send(String to,String email){
+    public void send(String to,String email,String subject){
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setText(email, true);
             helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom("hello@amigoscode.com");
+            helper.setSubject(subject);
+            helper.setFrom("hello@queryus.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new IllegalStateException("failed to send email");
@@ -41,7 +41,7 @@ public class EmailService {
     }
     @Async
     public void sendActivationEmail(String email,String firstName,String token){
-        send(email,buildActivationEmail(firstName,backendUrl+"/token/verify?token="+token));
+        send(email,buildActivationEmail(firstName,backendUrl+"/token/verify?token="+token),"Verify Account.");
     }
     private String buildActivationEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
@@ -181,6 +181,6 @@ public class EmailService {
     }
     @Async
     public void sendPasswordResetEmail(String email, String firstName, String token) {
-        send(email,buildPasswordResetEmail(firstName,frontEndUrl+"/reset-password?token="+token));
+        send(email,buildPasswordResetEmail(firstName,frontEndUrl+"/reset-password?token="+token),"Reset Password.");
     }
 }
