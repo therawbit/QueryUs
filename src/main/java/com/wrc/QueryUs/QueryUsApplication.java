@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @SpringBootApplication
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QueryUsApplication {
 
 	public static void main(String[] args) {

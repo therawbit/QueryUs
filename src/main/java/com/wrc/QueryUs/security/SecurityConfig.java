@@ -84,6 +84,7 @@ public class SecurityConfig {
         configuration.addAllowedMethod("*");
         configuration.setExposedHeaders(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
