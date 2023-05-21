@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @EnableAsync
 @SpringBootApplication
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QueryUsApplication {
 
 	public static void main(String[] args) {
