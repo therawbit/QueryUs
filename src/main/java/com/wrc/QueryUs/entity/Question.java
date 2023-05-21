@@ -22,7 +22,7 @@ public class Question {
     private int upVotes;
     @Column(name = "question_title")
     private String questionTitle;
-    @Column(name = "question_text")
+    @Column(name = "question_text",columnDefinition = "TEXT")
     private String questionText;
     @ManyToOne
     @JoinColumn(name = "user_id")
