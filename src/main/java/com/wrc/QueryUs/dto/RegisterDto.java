@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor`
 @AllArgsConstructor
 public class RegisterDto {
     @NotBlank(message = "First name cannot be blank.")
